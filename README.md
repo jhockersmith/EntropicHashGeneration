@@ -1,9 +1,6 @@
-
-  # **Advancing Genuine Random Hash Generation through Entropy Assessment of Observable Natural Processes.**
-
 <p align="center">
-  <img src="">
-  <img src="">
+  <img src="https://i.imgur.com/BNbmk8V.png">
+</a>
 </p>
 
 <p align="center">
