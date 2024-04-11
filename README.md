@@ -87,6 +87,7 @@ The entropy assessment framework can be used in various applications, including:
 Included in this repo are example images that are similar in subject, but different in formation (fire and clouds).
 
 Using the main.py program, the hashes from fire-1.jpg and fire-2.png are the following respectively:
+
 fire-1: 
 ```
 749bdfe640fc6551b38a70ba607c8b0f19c8d1f06090d8b6b49e3a02a9da2789
