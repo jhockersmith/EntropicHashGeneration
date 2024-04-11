@@ -53,31 +53,22 @@ The entropy assessment framework provides a methodology and tools for quantifyin
      $$H = -\sum_{x \in X} p(x) \log_2 p(x)$$
      where p(x) is the probability of occurrence of each value x in the data set.
 #### Script Usage
-The CalculateEntropy script provided in the repository demonstrates the use of the framework. It captures an image using a Python script and then calculates the entropy of the captured image.
+The main.py script provided in the repository demonstrates the use of the framework. It captures an image using a Python script and then calculates the entropy of the captured image.
 
 #### Code Explanation
-  1. Data Collection (Python): The capture_image.py script is executed to capture an image.
-  2. Entropy Calculation (Java):
-     - The calculateEntropy method reads the captured image from the specified file path.
+  1. Data Collection: The process_project_images() function is executed to either capture an image or use an existing image.
+  2. Entropy Calculation:
+     - The calculate_image_entropy() function reads the image from the specified image loader (cv2/user-defined).
      - A histogram is generated to count the frequency of each pixel intensity value in the image.
      - The entropy is calculated using the histogram and the Shannon entropy formula.
           ```
-              public static double calculateEntropy(int[] histogram) {
-              double entropy = 0;
-              int total = 0;
-              for (int value : histogram) {
-                  total += value;
-              }
-              for (int value : histogram) {
-                  if (value > 0) {
-                      double probability = (double) value / total;
-                      entropy -= probability * (Math.log(probability) / Math.log(2));
-                  }
-              }
-              return entropy;
-          }
+          def calculate_image_entropy(image):
+              gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+              hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
+              hist /= hist.sum()
+              entropy = -np.sum(hist * np.log2(hist + 1e-10))
+              return entropy
           ```
-          **(where histogram is an array containing the frequency of occurrence of each value in the data set.)**
      
 #### Output
 The output of the script is the calculated entropy value, which represents the level of randomness in the captured image. A higher entropy value indicates greater randomness.
@@ -91,6 +82,19 @@ The entropy assessment framework can be used in various applications, including:
   - Developing random number generators based on natural processes
   - Assessing the security of cryptographic algorithms that rely on random inputs
 
+
+#### Examples
+Included in this repo are example images that are similar in subject, but different in formation (fire and clouds).
+
+Using the main.py program, the hashes from fire-1.jpg and fire-2.png are the following respectively:
+fire-1: 
+```
+749bdfe640fc6551b38a70ba607c8b0f19c8d1f06090d8b6b49e3a02a9da2789
+```
+fire-2: 
+```
+3a6004fd864d759d82a24b88141da25f0e9f9b7d421aed6199c1f4a8d8e7e05e
+```
 #### Check out my other projects:
  - [GPT-Jarvis](https://github.com/jhockersmith/GPT-Jarvis) - A real-life JARVIS using the OpenAI Whisper, Audio, and GPT 3.5 Turbo APIs
 
