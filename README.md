@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/BNbmk8V.png">
+  <img src="https://i.imgur.com/HefvQqQ.png">
 </a>
 </p>
 
@@ -18,22 +18,22 @@ This repository explores the utilization of randomness derived from naturally oc
 
 ### Dynamic Formations in Natural Phenomena
  - Oil-Water Interaction
-   - Utilizes the entropic properties observed in the interaction between oil and water, comprable to the dynamic patterns seen in lava lamps. 
+   - Utilizes the entropic properties observed in the interaction between oil and water, comparable to the dynamic patterns seen in lava lamps. 
  - Cloud Formation
    - Uses observable differences in cloud formations to generate entropic values.
  - Flame Movement Dynamics
    - Determines entropic values by analyzing the dynamic and distinctive motion of flames, considering their potential interactions with external forces.
 
 ### Consideration of advantages and drawbacks
-
+Compression of images can impact the randomness of the images. It reduces storage and computational costs but can potentially decrease the randomness of the hashes generated. The choice of compression algorithm should be carefully considered to minimize the impact on randomness while maintaining acceptable efficiency. Storing images securely is essential to prevent unauthorized access or manipulation, which could compromise the integrity of the hash generation process. Encryption, access control, and regular backups are essential security measures. However, these measures can also introduce performance overhead and potential vulnerabilities.
 <details>
 
 <summary>In Depth Comparative Analysis</summary>
 
-### In Depth Comparative Analysis
+### In-Depth Comparative Analysis
 | Pros  | Cons |
 | ------------- | ------------- |
-| Enhanced Security: Utilizing entropic values from images can enhance the security of hash generation by introducing a significant level of randomness, making it more resistant to brute-force and other cryptographic attacks. |Data Storage Requirements: Storing and managing large volumes of image data can be resource-intensive and may require significant storage capacity, leading to potential scalability issues and increased costs.  |
+| Enhanced Security: Utilizing entropic values from images can enhance the security of hash generation by introducing a significant level of randomness, making it more resistant to brute force and other cryptographic attacks. |Data Storage Requirements: Storing and managing large volumes of image data can be resource-intensive and may require significant storage capacity, leading to potential scalability issues and increased costs.  |
 | Increased Uniqueness: Images provide a vast source of randomness, allowing for the generation of highly unique hash values, which reduces the likelihood of collisions and enhances data integrity.  | Privacy Concerns: The capture and storage of images for entropy generation raise privacy concerns, as sensitive or personal information may inadvertently be included in the images, requiring robust privacy measures and compliance with data protection regulations.  |
 | Diverse Sources: Images can be captured from various natural phenomena, ensuring a diverse range of entropy sources and making the hash generation process more robust and reliable.  | Sensitivity to Environmental Factors: Image-based entropy generation is sensitive to environmental factors such as lighting conditions, camera settings, and image quality, which may introduce variability and unpredictability in the generated hash values.  |
 | Transparency and Reproducibility: Image-based entropy generation offers a transparent and reproducible method, allowing for easy verification and validation of the generated hash values.  | Processing Overhead: Generating entropy from images requires computational resources for image capture, processing, and analysis, leading to increased processing overhead and potential performance impacts, especially in real-time applications.  |
@@ -61,7 +61,36 @@ The CalculateEntropy script provided in the repository demonstrates the use of t
      - The calculateEntropy method reads the captured image from the specified file path.
      - A histogram is generated to count the frequency of each pixel intensity value in the image.
      - The entropy is calculated using the histogram and the Shannon entropy formula.
- 
+          ```
+              public static double calculateEntropy(int[] histogram) {
+              double entropy = 0;
+              int total = 0;
+              for (int value : histogram) {
+                  total += value;
+              }
+              for (int value : histogram) {
+                  if (value > 0) {
+                      double probability = (double) value / total;
+                      entropy -= probability * (Math.log(probability) / Math.log(2));
+                  }
+              }
+              return entropy;
+          }
+          ```
+          **(where histogram is an array containing the frequency of occurrence of each value in the data set.)**
+     
+#### Output
+The output of the script is the calculated entropy value, which represents the level of randomness in the captured image. A higher entropy value indicates greater randomness.
+
+#### Limitations
+The accuracy of the entropy assessment depends on the quality and representativeness of the data collected. The framework assumes that the data set is sufficiently large and captures the underlying dynamics of the natural process.
+
+#### Applications
+The entropy assessment framework can be used in various applications, including:
+  - Evaluating the randomness of naturally occurring phenomena
+  - Developing random number generators based on natural processes
+  - Assessing the security of cryptographic algorithms that rely on random inputs
+
 #### Check out my other projects:
  - [GPT-Jarvis](https://github.com/jhockersmith/GPT-Jarvis) - A real-life JARVIS using the OpenAI Whisper, Audio, and GPT 3.5 Turbo APIs
 
