@@ -56,22 +56,39 @@ The entropy assessment framework provides a methodology and tools for quantifyin
 The main.py script provided in the repository demonstrates the use of the framework. It captures an image using a Python script and then calculates the entropy of the captured image.
 
 #### Code Explanation
-  1. Data Collection: The process_project_images() function is executed to either capture an image or use an existing image.
+  1. Data Collection: The main method prompts the user to input the path to the image file.
   2. Entropy Calculation:
-     - The calculate_image_entropy() function reads the image from the specified image loader (cv2/user-defined).
-     - A histogram is generated to count the frequency of each pixel intensity value in the image.
-     - The entropy is calculated using the histogram and the Shannon entropy formula.
+     - The calculateEntropy() method processes the image to calculate its entropy.
+     - It constructs a histogram to count the frequency of each pixel intensity value in the image.
+     - The entropy is then computed using the histogram and the Shannon entropy formula.
           ```
-          def calculate_image_entropy(image):
-              gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-              hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
-              hist /= hist.sum()
-              entropy = -np.sum(hist * np.log2(hist + 1e-10))
-              return entropy
+          public static double calculateEntropy(BufferedImage image) {
+              int[] histogram = new int[256];
+              int totalPixels = image.getWidth() * image.getHeight();
+          
+              // Calculate frequency of each pixel intensity
+              for (int y = 0; y < image.getHeight(); y++) {
+                  for (int x = 0; x < image.getWidth(); x++) {
+                      int pixel = image.getRGB(x, y);
+                      int intensity = (pixel >> 16) & 0xff; // Red component
+                      histogram[intensity]++;
+                  }
+              }
+          
+              // Calculate entropy
+              double entropy = 0;
+              for (int i = 0; i < histogram.length; i++) {
+                  if (histogram[i] > 0) {
+                      double probability = (double) histogram[i] / totalPixels;
+                      entropy -= probability * (Math.log(probability) / Math.log(2));
+                  }
+              }
+              return entropy;
+          }
           ```
      
 #### Output
-The output of the script is the calculated entropy value, which represents the level of randomness in the captured image. A higher entropy value indicates greater randomness.
+The program outputs the calculated entropy value and the corresponding hash key.
 
 #### Limitations
 The accuracy of the entropy assessment depends on the quality and representativeness of the data collected. The framework assumes that the data set is sufficiently large and captures the underlying dynamics of the natural process.
