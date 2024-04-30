@@ -53,7 +53,7 @@ The entropy assessment framework provides a methodology and tools for quantifyin
      $$H = -\sum_{x \in X} p(x) \log_2 p(x)$$
      where p(x) is the probability of occurrence of each value x in the data set.
 #### Script Usage
-The main.py script provided in the repository demonstrates the use of the framework. It captures an image using a Python script and then calculates the entropy of the captured image.
+The App.java program provided in the repository demonstrates the use of the framework. It takes a user-defined image and then calculates the entropy of the specified image.
 
 #### Code Explanation
   1. Data Collection: The main method prompts the user to input the path to the image file.
@@ -103,16 +103,25 @@ The entropy assessment framework can be used in various applications, including:
 #### Examples
 Included in this repo are example images that are similar in subject, but different in formation (fire and clouds).
 
-Using the main.py program, the hashes from fire-1.jpg and fire-2.png are the following respectively:
+Using the App.java program, the hashes from fire-1.jpg and fire-2.png are the following respectively:
 
 fire-1: 
 ```
-749bdfe640fc6551b38a70ba607c8b0f19c8d1f06090d8b6b49e3a02a9da2789
+484b3ef7adad422c2cfa7b792e8d0ce59301f08c6eb8e267c27416d231aefa32
 ```
 fire-2: 
 ```
-3a6004fd864d759d82a24b88141da25f0e9f9b7d421aed6199c1f4a8d8e7e05e
+4e9aab7ea24fd404e98d4900f742a4ce51c7062f4462a9023853253b2138da43
 ```
+Though the hashes are *similar*, they are not the same, proving that despite being the same natural occurrence, even the slightest change in feature can cause a dramatic shift in the calculated entropy.
+
+### Cracking Hashes
+Due to hashes being a fixed length, containing only letters and numbers, they can be guessed. This is why it is important to generate random hashes that do not have recognizable patterns, as computers can guess millions of hashes per second.
+
+A desktop computer containing readily available hardware had an average hash rate of 1.5 million hashes per second. Given the hash from fire-2.png, the HashMatcher program would take roughly 82,313 hours or around nine calendar years to successfully guess the hash. 
+With more powerful hardware, this rate increases significantly, but by capturing images with higher entropic values, the longer it would take to guess these hashes. 
+
+In the HashMatcher.java, the program guesses between 0.00000000000000000001 and 20.0. This is roughly nine quintillion possible decimals for the program to guess. With higher entropic values, this number can significantly increase, allowing for much more secure hashes.
 #### Check out my other projects:
  - [GPT-Jarvis](https://github.com/jhockersmith/GPT-Jarvis) - A real-life JARVIS using the OpenAI Whisper, Audio, and GPT 3.5 Turbo APIs
 
