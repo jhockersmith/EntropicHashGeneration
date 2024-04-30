@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class HashCrack {
+public class HashMatcher {
     // Method to generate hash from a decimal value
     public static String generateHash(double decimalValue) {
         try {
