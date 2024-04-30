@@ -25,86 +25,86 @@
  * 
  * Check out the README.md for detailed information about the project.
  */
+import java.io.File;
+import java.util.Scanner;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.security.MessageDigest;
+import java.awt.image.BufferedImage;
+import java.security.NoSuchAlgorithmException;
 
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Entropy and Hash Key Generation:");
 
- import java.io.File;
- import java.util.Scanner;
- import java.io.IOException;
- import javax.imageio.ImageIO;
- import java.security.MessageDigest;
- import java.awt.image.BufferedImage;
- import java.security.NoSuchAlgorithmException;
- 
- 
- public class App {
-     public static void main(String[] args) {
-     System.out.println("Entropy and Hash Key Generation:");
- 
-     // Get the path to the input image from the user
-     System.out.print("Enter the path to the input image: ");
-     Scanner scanner = new Scanner(System.in);
-     
-     String imagePath = scanner.nextLine();
- 
-     try {
-         // Read the input image
-         BufferedImage image = ImageIO.read(new File(imagePath));
-         // Calculate entropy
-         double entropy = calculateEntropy(image);
-         // Generate hash key using entropy value
-         String hashKey = generateHash(Double.toString(entropy));
- 
-         // Print entropy and hash key
-         System.out.println("Entropy: " + entropy);
-         System.out.println("Hash Key: " + hashKey);
-     } catch (IOException e) {
-         e.printStackTrace();
-     } catch (NoSuchAlgorithmException e) {
-         e.printStackTrace();
-     } finally {
-         scanner.close();
-     }
- }
- 
- // Function to calculate entropy of an image
- public static double calculateEntropy(BufferedImage image) {
-     int[] histogram = new int[256];
-     int totalPixels = image.getWidth() * image.getHeight();
- 
-     // Calculate frequency of each pixel intensity
-     for (int y = 0; y < image.getHeight(); y++) {
-         for (int x = 0; x < image.getWidth(); x++) {
-             int pixel = image.getRGB(x, y);
-             int intensity = (pixel >> 16) & 0xff; // Red component
-             histogram[intensity]++;
-         }
-     }
- 
-     // Calculate entropy
-     double entropy = 0;
-     for (int i = 0; i < histogram.length; i++) {
-         if (histogram[i] > 0) {
-             double probability = (double) histogram[i] / totalPixels;
-             entropy -= probability * (Math.log(probability) / Math.log(2));
-         }
-     }
-     return entropy;
- }
- 
- // Function to generate a secure hash using SHA-256
- public static String generateHash(String input) throws NoSuchAlgorithmException {
-     MessageDigest digest = MessageDigest.getInstance("SHA-256");
-     byte[] hashBytes = digest.digest(input.getBytes());
- 
-     // Convert byte array to hexadecimal string
-     StringBuilder hexString = new StringBuilder();
-     for (byte b : hashBytes) {
-         String hex = Integer.toHexString(0xff & b);
-         if (hex.length() == 1)
-             hexString.append('0');
-         hexString.append(hex);
-     }
-     return hexString.toString();
- }
- }
-  
+        // Get the path to the input image from the user
+        System.out.print("Enter the path to the input image: ");
+        Scanner scanner = new Scanner(System.in);
+        String imagePath = scanner.nextLine();
+
+        try {
+            // Read the input image
+            BufferedImage image = ImageIO.read(new File(imagePath));
+            // Calculate entropy
+            String entropy = calculateEntropy(image);
+            // Generate hash key using entropy value
+            String hashKey = generateHash(entropy);
+
+            // Print entropy and hash key
+            System.out.println("Entropy: " + entropy);
+            System.out.println("Hash Key: " + hashKey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } finally {
+            scanner.close();
+        }
+    }
+
+    // Function to calculate entropy of an image
+    public static String calculateEntropy(BufferedImage image) {
+        int[] histogram = new int[256];
+        int totalPixels = image.getWidth() * image.getHeight();
+
+        // Calculate frequency of each pixel intensity
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int pixel = image.getRGB(x, y);
+                int intensity = (pixel >> 16) & 0xff; // Red component
+                histogram[intensity]++;
+            }
+        }
+
+        // Calculate entropy
+        double entropy = 0;
+        for (int i = 0; i < histogram.length; i++) {
+            if (histogram[i] > 0) {
+                double probability = (double) histogram[i] / totalPixels;
+                entropy -= probability * (Math.log(probability) / Math.log(2));
+            }
+        }
+
+        // Format entropy with 20 decimal places
+        String formattedEntropy = String.format("%.20f", entropy);
+
+        return formattedEntropy;
+    }
+
+    // Function to generate a secure hash using SHA-256
+    public static String generateHash(String input) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(input.getBytes());
+
+        // Convert byte array to hexadecimal string
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hashBytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1)
+                hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+}
+
